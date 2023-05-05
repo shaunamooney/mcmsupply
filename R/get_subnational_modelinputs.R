@@ -31,12 +31,12 @@ get_subnational_modelinputs <- function(local=FALSE, mycountry=NULL, startyear=1
     clean_FPsource <- raw_data %>% dplyr::filter(Country==mycountry) # Subset data to country of interest
   }
 
-  # Remove sample size less than 5, replace SE with max SE for region-method combo --------------------
-  clean_FPsource <- raw_data %>%
-    dplyr::filter(n_Other >= 5 | n_Public >= 5 | n_Commercial_medical >= 5) %>%
-    dplyr::mutate(Other.SE = ifelse(Other.SE < 0.01, 0.01, Other.SE)) %>%
-    dplyr::mutate(Public.SE = ifelse(Public.SE < 0.01, 0.01, Public.SE)) %>%
-    dplyr::mutate(Commercial_medical.SE = ifelse(Commercial_medical.SE < 0.01, 0.01, Commercial_medical.SE))
+  # # Remove sample size less than 5, replace SE with max SE for region-method combo --------------------
+  # clean_FPsource <- raw_data %>%
+  #   dplyr::filter(n_Other >= 5 | n_Public >= 5 | n_Commercial_medical >= 5) %>%
+  #   dplyr::mutate(Other.SE = ifelse(Other.SE < 0.01, 0.01, Other.SE)) %>%
+  #   dplyr::mutate(Public.SE = ifelse(Public.SE < 0.01, 0.01, Public.SE)) %>%
+  #   dplyr::mutate(Commercial_medical.SE = ifelse(Commercial_medical.SE < 0.01, 0.01, Commercial_medical.SE))
 
   clean_FPsource <- standard_method_names(clean_FPsource) # Standardizing method names
   country_subnat_tbl <- clean_FPsource %>%
