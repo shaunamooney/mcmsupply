@@ -69,12 +69,13 @@ plot_subnational_point_estimates <- function(main_path, vis_path, pkg_data, loca
       ggplot2::labs(y="Proportion of contraceptives supplied", x = "Year", title = paste0(unique(country_calc$Region),", ",unique(country_data$Country))) +
       ggplot2::scale_y_continuous(limits=c(0,1))+
       ggplot2::theme_bw() +
-      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90), strip.text.x = ggplot2::element_text(size = 9)) +
       ggplot2::theme(legend.position = "bottom")+
       ggplot2::scale_colour_manual(values=safe_colorblind_palette) +
       ggplot2::scale_fill_manual(values=safe_colorblind_palette) +
       ggplot2::labs(fill = "Sector") +
       ggplot2::guides(color="none") +
+      ggplot2::theme(title = ggplot2::element_text(size=20), axis.text = ggplot2::element_text(angle = 90, size = 20), strip.text.x = ggplot2::element_text(size = 18), axis.title.x = ggplot2::element_text(size = 20), axis.title.y = ggplot2::element_text(size = 20)) +
+      ggplot2::theme(legend.title = ggplot2::element_text(size=20), legend.key.size = unit(2.5, 'cm'), legend.text = ggplot2::element_text(size=20)) +
       ggplot2::facet_wrap(~Method)
 
     country_name <- subnat_index_table$Country[i]

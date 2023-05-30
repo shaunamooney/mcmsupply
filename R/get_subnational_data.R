@@ -38,21 +38,21 @@ get_subnational_data <- function(local=FALSE, mycountry=NULL, fp2030=TRUE, surve
     dplyr::rowwise() %>%
     dplyr::mutate(check_total = sum(Commercial_medical, Other, Public, na.rm = TRUE)) # make sure proportions add to 1
 
-  FP_source_data_wide$count_NA <- rowSums(is.na(FP_source_data_wide[, c("Other", "Public", "Commercial_medical")])) # count NAs
+  #FP_source_data_wide$count_NA <- rowSums(is.na(FP_source_data_wide[, c("Other", "Public", "Commercial_medical")])) # count NAs
   # FP_source_data_wide <- FP_source_data_wide %>%
    # dplyr::filter(count_NA <2) # Remove obs with two missing sectors
-  FP_source_data_wide$remainder <- 1 - rowSums(FP_source_data_wide[, c("Other", "Public", "Commercial_medical")], na.rm = TRUE)
+  #FP_source_data_wide$remainder <- 1 - rowSums(FP_source_data_wide[, c("Other", "Public", "Commercial_medical")], na.rm = TRUE)
 
   FP_source_data_wide <- FP_source_data_wide %>%
-    dplyr::select(Country, Region, Method, average_year, Other, Public, Commercial_medical, n_Other, n_Public, n_Commercial_medical, check_total, count_NA, remainder)
+    dplyr::select(Country, Region, Method, average_year, Other, Public, Commercial_medical, n_Other, n_Public, n_Commercial_medical, check_total) #, count_NA, remainder)
 
-  for(i in 1:nrow(FP_source_data_wide)) {   # Fill in single missing NA values with 1-sum(others)
-    na_col_num <- which(is.na(FP_source_data_wide[i,c("Other", "Public", "Commercial_medical")])) # column number of NA
-    update_remain <- FP_source_data_wide[i,"remainder"]/length(na_col_num)
-    FP_source_data_wide[i,na_col_num+4] <- update_remain
-  }
+  # for(i in 1:nrow(FP_source_data_wide)) {   # Fill in single missing NA values with 1-sum(others)
+  #   na_col_num <- which(is.na(FP_source_data_wide[i,c("Other", "Public", "Commercial_medical")])) # column number of NA
+  #   update_remain <- FP_source_data_wide[i,"remainder"]/length(na_col_num)
+  #   FP_source_data_wide[i,na_col_num+4] <- update_remain
+  # }
 
-  # Remove exactly 1 and exactly 0 values
+  # Adjust exactly 1 and exactly 0 values
   FP_source_data_wide <- FP_source_data_wide %>%
     mutate(Commercial_medical = ifelse(Commercial_medical>0.99, 0.99, Commercial_medical)) %>%
     mutate(Commercial_medical = ifelse(Commercial_medical<0.01, 0.01, Commercial_medical)) %>%
@@ -69,12 +69,6 @@ get_subnational_data <- function(local=FALSE, mycountry=NULL, fp2030=TRUE, surve
     dplyr::arrange(Country) %>%
     dplyr::rename(Public.SE = Public, Commercial_medical.SE = Commercial_medical, Other.SE = Other)
 
-  # SE_source_data_wide <- SE_source_data_wide %>%
-  #   dplyr::rowwise() %>%
-  #   dplyr::mutate(Public.SE = ifelse(is.na(Public.SE), 0.01, Public.SE)) %>%   # Readjust any SE <1% to 1%
-  #   dplyr::mutate(Commercial_medical.SE = ifelse(is.na(Commercial_medical.SE), 0.01, Commercial_medical.SE)) %>%
-  #   dplyr::mutate(Other.SE = ifelse(is.na(Other.SE), 0.01, Other.SE))
-
   SE_source_data_wide$count_NA <- rowSums(is.na(SE_source_data_wide)) # count NAs
   SE_source_data_wide_n1 <- SE_source_data_wide %>% dplyr::filter(count_NA < 2) # Remove obs with two missing sectors
   SE_source_data_wide_n2 <- SE_source_data_wide %>% dplyr::filter(count_NA >1) # Remove obs with two missing sectors
@@ -87,13 +81,13 @@ get_subnational_data <- function(local=FALSE, mycountry=NULL, fp2030=TRUE, surve
     dplyr::mutate(Commercial_medical.SE = ifelse(is.na(Commercial_medical.SE)==TRUE | is.infinite(Commercial_medical.SE)==TRUE, mean(Public.SE, Other.SE, na.rm=TRUE), Commercial_medical.SE)) %>%
     dplyr::select(Country, Region, Method, average_year, Commercial_medical.SE, Public.SE, Other.SE, count_NA)
 
-  SE_source_data_wide_n2 <- SE_source_data_wide_n2 %>%
-    dplyr::group_by(Country, Region, Method, average_year) %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(Other.SE = ifelse(is.na(Other.SE)==TRUE | is.infinite(Other.SE)==TRUE, 0.1, Other.SE)) %>% #   # Replace missing SE with average of other sectors
-    dplyr::mutate(Public.SE = ifelse(is.na(Public.SE)==TRUE | is.infinite(Public.SE)==TRUE, 0.1, Public.SE)) %>%
-    dplyr::mutate(Commercial_medical.SE = ifelse(is.na(Commercial_medical.SE)==TRUE | is.infinite(Commercial_medical.SE)==TRUE, 0.1, Commercial_medical.SE)) %>%
-    dplyr::select(Country, Region, Method, average_year, Commercial_medical.SE, Public.SE, Other.SE, count_NA)
+   SE_source_data_wide_n2 <- SE_source_data_wide_n2 %>%
+     dplyr::group_by(Country, Region, Method, average_year) %>%
+     dplyr::rowwise() %>%
+     dplyr::mutate(Other.SE = ifelse(is.na(Other.SE)==TRUE | is.infinite(Other.SE)==TRUE, 0.1, Other.SE)) %>% #   # Replace missing SE with average of other sectors
+     dplyr::mutate(Public.SE = ifelse(is.na(Public.SE)==TRUE | is.infinite(Public.SE)==TRUE, 0.1, Public.SE)) %>%
+     dplyr::mutate(Commercial_medical.SE = ifelse(is.na(Commercial_medical.SE)==TRUE | is.infinite(Commercial_medical.SE)==TRUE, 0.1, Commercial_medical.SE)) %>%
+     dplyr::select(Country, Region, Method, average_year, Commercial_medical.SE, Public.SE, Other.SE, count_NA)
 
   SE_source_data_wide <- bind_rows(SE_source_data_wide_n1, SE_source_data_wide_n2)
 
@@ -101,7 +95,7 @@ get_subnational_data <- function(local=FALSE, mycountry=NULL, fp2030=TRUE, surve
 
   mydata <- FP_source_data_wide %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(Public = ifelse(Public < 0, 0.001, Public)) %>%   # Replace any negative numbers with approximately 0 (safety net)
+    dplyr::mutate(Public = ifelse(Public < 0, 0.001, Public)) %>%   # Replace any tiny negative numbers with approximately 0 (safety net)
     dplyr::mutate(Commercial_medical = ifelse(Commercial_medical < 0, 0.001, Commercial_medical)) %>%
     dplyr::mutate(Other = ifelse(Other < 0, 0.001, Other))
 
