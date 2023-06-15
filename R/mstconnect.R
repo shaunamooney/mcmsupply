@@ -4,7 +4,6 @@
 #' @param polys Spatial polygons to connect
 #' @param nb Disjointed neighbourhood matrix
 #' @param distance Default is "centroid".
-#' @export
 
 mstconnect <- function(polys, nb, distance="centroid"){
   if(distance == "centroid"){

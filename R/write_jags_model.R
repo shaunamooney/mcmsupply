@@ -3,6 +3,15 @@
 #' @param model_type String. Two options, "subnational" for subnational-level JAGS code or "national" for national-level JAGS code.
 #' @param local TRUE/FALSE. Default is FALSE. local=FALSE retrieves the data for all subnational provinces across all countries. local=TRUE retrieves data for only one country.
 #' @return returns a list ready for input into the JAGS model
+#' @example
+#' Subnational multi-country model:
+#' write_jags_model(model_type = "subnational", local=FALSE)
+#' Subnational single-country model:
+#' write_jags_model(model_type = "subnational", local=TRUE)
+#' National multi-country model:
+#' write_jags_model(model_type = "national", local=FALSE)
+#' National single-country model:
+#' write_jags_model(model_type = "national", local=TRUE)
 #' @export
 
 write_jags_model <- function(model_type, local=FALSE) {

@@ -4,7 +4,8 @@
 #' @param vis_path String. Default is "visualisation/". Path where your visualisations will be saved to.
 #' @param jagsdata Output of the `mcmsupply::get_modelinputs()` function.
 #' @param ... Arguments from the `mcmsupply::get_modelinputs()` function.
-#' @examples National single-country example:
+#' @examples
+#' National single-country example:
 #' plot_estimates(main_path = "results/test", vis_path  = "visualisations/test", jagsdata, ...)
 #'
 #' National multi-country example:

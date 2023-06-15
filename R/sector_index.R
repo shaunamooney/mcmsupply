@@ -2,6 +2,10 @@
 #' @param my_data The data with a sector_category column you want to index.
 #' @param  my_sectors A vector of sectors used in the data
 #' @return returns data with sectors indexed
+#' @example
+#' national_FPsource_data <- mcmsupply::national_FPsource_data
+#' n_sector <- unique(national_FPsource_data$Sector)
+#' sector_index_fun(national_FPsource_data, n_sector)
 #' @export
 
 sector_index_fun <- function(my_data, my_sectors) {

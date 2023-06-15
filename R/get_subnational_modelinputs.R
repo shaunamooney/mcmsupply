@@ -7,7 +7,6 @@
 #' @param endyear The year you wish to finish your predictions. Default is 2030.5.
 #' @param nsegments The number of knots you wish to use in your basis functions. Default is 12.
 #' @param raw_data The subnational family planning source data from the 'get_subnational_data' function.
-#'
 #' @return A list of modelling inputs for the JAGS model.
 #' 1. Tstar is the year index for the most recent survey in each province.
 #' 2. Kstar is the knot index that aligns with Tstar.
@@ -22,21 +21,25 @@
 #' 11. matchcountry is the country indexing to match the observed data to the predictions.
 #' 12. matchmethod is the method indexing to match the observed data to the predictions.
 #' 13. matchyears is the year indexing to match the observed data to the predictions.
+#' @examples
+#' cleaned_data <- get_data(national=FALSE, local=TRUE, mycountry="Nepal", fp2030=TRUE, surveydata_filepath=NULL)
+#' jagsdata <- get_subnational_modelinputs(local=TRUE, "Nepal", startyear=1990, endyear=2030.5, nsegments=12, cleaned_data)
 #' @export
-#'
-#' @examples jagsdata <- get_modelinputs("Nepal", startyear=1990, endyear=2030.5, nsegments=12, mydata)
+
 get_subnational_modelinputs <- function(local=FALSE, mycountry=NULL, startyear=1990, endyear=2030.5, nsegments=12, raw_data) {
 
   if(local==TRUE & is.null(mycountry)==FALSE) {
     clean_FPsource <- raw_data %>% dplyr::filter(Country==mycountry) # Subset data to country of interest
+  } else {
+    clean_FPsource <- raw_data
   }
 
-  # # Remove sample size less than 5, replace SE with max SE for region-method combo --------------------
-  # clean_FPsource <- raw_data %>%
-  #   dplyr::filter(n_Other >= 5 | n_Public >= 5 | n_Commercial_medical >= 5) %>%
-  #   dplyr::mutate(Other.SE = ifelse(Other.SE < 0.01, 0.01, Other.SE)) %>%
-  #   dplyr::mutate(Public.SE = ifelse(Public.SE < 0.01, 0.01, Public.SE)) %>%
-  #   dplyr::mutate(Commercial_medical.SE = ifelse(Commercial_medical.SE < 0.01, 0.01, Commercial_medical.SE))
+  # # Remove sample size less than 3, replace tiny SE with 1% --------------------
+  clean_FPsource <- clean_FPsource %>%
+    dplyr::filter(n_Other >= 3 | n_Public >= 3 | n_Commercial_medical >= 3) %>%
+    dplyr::mutate(Other.SE = ifelse(Other.SE < 0.01, 0.01, Other.SE)) %>%
+    dplyr::mutate(Public.SE = ifelse(Public.SE < 0.01, 0.01, Public.SE)) %>%
+    dplyr::mutate(Commercial_medical.SE = ifelse(Commercial_medical.SE < 0.01, 0.01, Commercial_medical.SE))
 
   clean_FPsource <- standard_method_names(clean_FPsource) # Standardizing method names
   country_subnat_tbl <- clean_FPsource %>%

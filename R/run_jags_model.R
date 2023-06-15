@@ -6,11 +6,12 @@
 #' @param n_iter Default is 80000. Number of itterations to do in JAGS model.
 #' @param n_burnin Default is 10000. Number of samples to burn-in in JAGS model.
 #' @param n_thin Default is 35. Number of samples to thin by in JAGS model.
-#' @param ... Argumentsfrom the `mcmsupply::get_modelinputs()` function.
+#' @param ... Arguments from the `mcmsupply::get_modelinputs()` function.
 #' @return returns the jags model object
 #' importFrom("stats", "cor", "filter", "lag")
 #' @import R2jags runjags tidyverse tidybayes
-#' @examples National single-country example:
+#' @examples
+#' National single-country example:
 #' run_jags_model(jagsdata, jagsparams = NULL, main_path, n_iter = 80000, n_burnin = 10000, n_thin = 35, ...)
 #'
 #' National multi-country example:

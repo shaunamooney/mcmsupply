@@ -5,10 +5,10 @@
 # Column 1 : row names (variable 1 for the correlation test)
 # Column 2 : column names (variable 2 for the correlation test)
 # Column 3 : the correlation coefficients
-#' @export
-#'
 #' @examples R <- Hmisc::rcorr(as.matrix(mtcars[,1:7])) # sample correlation matrix
 #' flat_corr <- flat_cor_mat(R)
+#' @export
+
 flat_cor_mat <- function(cor_r){
   cor_r <- tibble::rownames_to_column(as.data.frame(cor_r), var = "row")
   cor_r <- dplyr::gather(cor_r, column, cor, -1)

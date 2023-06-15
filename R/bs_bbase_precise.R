@@ -6,14 +6,12 @@
 #' @param xr Default is xr = max(x)
 #' @param nseg Number of knots you wish to use
 #' @param deg The degree of the polynomial. Default is 3.
-#'
 #' @return B.ik is a matrix, each row is one observation, each column is one B-spline.
 #' knots.k is a vector of transformed knots.
 #' Kstar is the knot point of last observation
-#' @export
-#'
 #' @examples all_years <- seq(from = 1990, to = 2030.5, by=0.5)
 #' bs_bbase_precise(all_years, lastobs=2014.5, nseg = 12)
+#' @export
 
 bs_bbase_precise <- function(x = x,lastobs = max(x), xl = min(x), xr = max(x), nseg = nseg, deg = 3) {
   # Compute the length of the partitions

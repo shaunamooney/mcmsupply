@@ -6,18 +6,15 @@
 #' @return returns the point estimates (median, 80% and 95% credible intervals) from the JAGS output
 #' importFrom("stats", "cor", "filter", "lag")
 #' @import R2jags runjags tidyverse tidybayes
-#' @examples National single-country example:
+#' @examples
+#' National single-country example:
 #' get_point_estimates(main_path = "results/test", jagsdata)
-#'
 #' National multi-country example:
 #' get_point_estimates(main_path = "results/test", jagsdata)
-#'
 #' Subnational single-country example:
 #' get_point_estimates(main_path = "results/test", jagsdata)
-#'
 #' Subnational multi-country example:
 #' get_point_estimates(main_path = "results/test", jagsdata)
-#'
 #' @export
 
 get_point_estimates <- function(main_path=NULL, jagsdata, ...) {
@@ -31,5 +28,5 @@ get_point_estimates <- function(main_path=NULL, jagsdata, ...) {
   } else {
     get_subnational_P_point_estimates(main_path, pkg_data = jagsdata$modelinputs, local=args$local, mycountry=args$mycountry)
   }
-  print("Results complete!")
+  message("Results complete!")
 }

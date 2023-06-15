@@ -2,6 +2,7 @@
 #' @name get_subnational_global_P_other
 #' @param main_path String. Path where you have set your model results to be saved to.
 #' @return Saved samples for other supply shares.
+#' @example get_subnational_global_P_other(main_path="results/")
 #' @export
 
 get_subnational_global_P_other <- function(main_path) {

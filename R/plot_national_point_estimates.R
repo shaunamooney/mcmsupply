@@ -6,6 +6,15 @@
 #' @param local TRUE/FALSE. Default is FALSE. local=FALSE retrieves the data for all subnational provinces across all countries. local=TRUE retrieves data for only one country.
 #' @param mycountry The country name of interest in a local run. You must have local=TRUE for this functionality. A list of possible countries available found in data/mycountries.rda.
 #' @return Data frame of labelled posterior samples with median, 95% and 80% credible intervals estimates.
+#' @example
+#' Multi-country:
+#' cleaned_natdata <- get_data(national=TRUE, local=FALSE, mycountry=NULL, fp2030=TRUE)
+#' pkg_data <- get_modelinputs(startyear=1990, endyear=2025.5, nsegments=12, raw_data = cleaned_natdata)
+#' plot_national_point_estimates(main_path = "results/", vis_path = "plots/", pkg_data, local=FALSE, mycountry=NULL)
+#' Single-country:
+#' cleaned_natdata <- get_data(national=TRUE, local=TRUE, mycountry="Nepal", fp2030=TRUE)
+#' pkg_data <- get_modelinputs(startyear=1990, endyear=2025.5, nsegments=12, raw_data = cleaned_natdata)
+#' plot_national_point_estimates(main_path = "results/", vis_path = "plots/", pkg_data, local=TRUE, mycountry="Nepal")
 #' @export
 
 plot_national_point_estimates <- function(main_path, vis_path, pkg_data, local=FALSE, mycountry=NULL) {

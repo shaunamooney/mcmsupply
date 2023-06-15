@@ -1,18 +1,25 @@
 #' Get the DHS data used for modelling the proportion of modern contraceptives supplied by the public and private sectors at the national level.
 #' @name get_national_data
 #' @param local TRUE/FALSE. Default is FALSE for global runs. Decides if this is a single-country or global run.
-#' @param mycountry The name of country of interest. Default is NULL. For the names of potential countries, review vigentte.
-#' @param fp2030=TRUE Filter raw data to only include the Family Planning 2030 focus countries discussed in the Comiskey et al. paper.
+#' @param mycountry Default is NULL. The name of country of interest. For the names of potential countries, review vignette.
+#' @param fp2030 TRUE/FALSE. Default is TRUE. Filters the data to only include FP2030 countries.
 #' @param surveydata_filepath Path to survey data. Default is NULL. Survey data should be a .xlsx with the following format \code{\link{national_FPsource_data}}.
 #' @return returns the DHS data set used for inputs into the model
+#' @example
+#' Multi-country national data:
+#' get_national_data <- function(local=FALSE, mycountry=NULL, fp2030=TRUE, surveydata_filepath=NULL)
+#' Single-country national data:
+#' get_national_data <- function(local=TRUE, mycountry="Nepal", fp2030=TRUE, surveydata_filepath=NULL)
+#' Single-country national custom data:
+#' get_national_data <- function(local=TRUE, mycountry="Nepal", fp2030=TRUE, surveydata_filepath="test/nepal_foo.xlsx")
 #' @export
 
 get_national_data <- function(local=FALSE, mycountry=NULL, fp2030=TRUE, surveydata_filepath=NULL) {
   if(is.null(surveydata_filepath)==TRUE){
-    print("Using preloaded data!")
+    message("Using preloaded data!")
     national_FPsource_data <- mcmsupply::national_FPsource_data # Read in data
   } else {
-    print(paste0("Using file from ", surveydata_filepath))
+    message(paste0("Using file from ", surveydata_filepath))
     national_FPsource_data <- readxl::read_xlsx(surveydata_filepath) # read in custom data
     national_FPsource_format <- mcmsupply::national_FPsource_format # Load format checker
     check_format(national_FPsource_format, national_FPsource_data) # Check if user input data is suitable for inclusion
@@ -101,7 +108,7 @@ get_national_data <- function(local=FALSE, mycountry=NULL, fp2030=TRUE, surveyda
     dplyr::arrange(Country, Super_region, Method, average_year)
 
   if(local==TRUE & is.null(mycountry)==FALSE) { # Subset data for country of interest ---------------------------
-    print(paste0("Getting data for ",mycountry))
+    message(paste0("Getting data for ",mycountry))
     FP_source_data_wide <- FP_source_data_wide %>% filter(Country==mycountry)
   }
 

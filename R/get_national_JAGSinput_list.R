@@ -4,6 +4,16 @@
 #' @param local TRUE/FALSE. Default is FALSE for global runs. Decides if this is a single-country or global run.
 #' @param mycountry The name of country of interest. Default is NULL. For the names of potential countries, review vigentte.
 #' @return returns a list ready for input into the JAGS model
+#' @example
+#' Single country example:
+#' cleaned_natdata <- get_data(national=TRUE, local=TRUE, mycountry="Nepal", fp2030=TRUE, surveydata_filepath=NULL)
+#' pkg_data <- get_modelinputs(startyear=1990, endyear=2025.5, nsegments=12, raw_data = cleaned_natdata)
+#' myjagslist <- get_national_JAGSinput_list(pkg_data, local= TRUE,  mycountry="Nepal")
+#'
+#' Multi-country example:
+#' cleaned_natdata <- get_data(national=TRUE, local=FALSE, mycountry=NULL, fp2030=TRUE, surveydata_filepath=NULL)
+#' pkg_data <- get_modelinputs(startyear=1990, endyear=2025.5, nsegments=12, raw_data = cleaned_natdata)
+#' myjagslist <- get_national_JAGSinput_list(pkg_data, local= FALSE,  mycountry=NULL)
 #' @export
 #'
 get_national_JAGSinput_list <- function(pkg_data, local= FALSE,  mycountry=NULL) {

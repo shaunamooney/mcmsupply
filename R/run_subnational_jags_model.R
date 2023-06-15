@@ -11,12 +11,17 @@
 #' @return returns the jags model object
 #' importFrom("stats", "cor", "filter", "lag")
 #' @import R2jags runjags tidyverse tidybayes foreach doMC sf spdep geodata
+#' @example
+#' Multi-country:
+#' cleaned_subnatdata <- get_data(national=FALSE, local=FALSE, mycountry=NULL, fp2030=TRUE)
+#' pkg_data <- get_modelinputs(startyear=1990, endyear=2025.5, nsegments=12, raw_data = cleaned_subnatdata)
+#' run_subnational_jags_model(jagsdata = pkg_data, jagsparams = NULL, local=FALSE, main_path = "results/", n_iter = 80000, n_burnin = 10000, n_thin = 35, mycountry=NULL)
 #' @export
 
 run_subnational_jags_model <- function(jagsdata, jagsparams = NULL, local=FALSE, main_path,
                                        n_iter = 80000, n_burnin = 10000, n_thin = 35, mycountry=NULL) {
 
-    print(paste0("Saving results to the following pathway: ", main_path))
+    message(paste0("Saving results to the following pathway: ", main_path))
 
   # Get JAGS input data list
   myjagsdata <- get_subnational_JAGSinput_list(jagsdata, local=local, mycountry=mycountry)
@@ -45,7 +50,7 @@ run_subnational_jags_model <- function(jagsdata, jagsparams = NULL, local=FALSE,
 
   # Create an output directory for individual chains
   if("output" %in% list.files(main_path)){
-    print("Output folder is already created")
+    message("Output folder is already created")
     } else { dir.create(paste0(main_path, "output"))  }
 
   # run JAGS model
@@ -69,7 +74,7 @@ run_subnational_jags_model <- function(jagsdata, jagsparams = NULL, local=FALSE,
                                                 "mean",
                                                 "sd")] <- NA
     saveRDS(mod, paste0(main_path,"/output/",chain, "chain.rds"))
-    print(paste("MCMC results for chain ", chain, "complete"))
+    message(paste("MCMC results for chain ", chain, "complete"))
   } # end chains
 
   gc()

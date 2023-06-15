@@ -2,6 +2,10 @@
 #' @param my_data The data with a Region column you want to index.
 #' @param  n_region A vector of regions used in the data
 #' @return returns data with region indexed
+#' @example
+#' national_FPsource_data <- mcmsupply::national_FPsource_data
+#' n_region <- unique(national_FPsource_data$Region)
+#' region_index_fun(national_FPsource_data, n_region)
 #' @export
 
 region_index_fun <- function(my_data, n_region) {

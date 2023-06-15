@@ -4,6 +4,15 @@
 #' @param pkg_data Output of the `mcmsupply::get_subnational_modelinputs()` function.
 #' @param vis_path String. Path where your visualisations will be saved to.
 #' @return Data frame of labelled posterior samples with median, 95% and 80% credible intervals estimates.
+#' @example
+#' Multi-country:
+#' cleaned_natdata <- get_data(national=FALSE, local=FALSE, mycountry=NULL, fp2030=TRUE)
+#' pkg_data <- get_modelinputs(startyear=1990, endyear=2025.5, nsegments=12, raw_data = cleaned_natdata)
+#' plot_subnational_point_estimates(main_path = "results/", vis_path = "plots/", pkg_data, local=FALSE, mycountry=NULL)
+#' Single-country:
+#' cleaned_natdata <- get_data(national=FALSE, local=TRUE, mycountry="Nepal", fp2030=TRUE)
+#' pkg_data <- get_modelinputs(startyear=1990, endyear=2025.5, nsegments=12, raw_data = cleaned_natdata)
+#' plot_subnational_point_estimates(main_path = "results/", vis_path = "plots/", pkg_data, local=TRUE, mycountry="Nepal")
 #' @export
 
 plot_subnational_point_estimates <- function(main_path, vis_path, pkg_data, local=FALSE, mycountry=NULL) {
@@ -24,11 +33,14 @@ plot_subnational_point_estimates <- function(main_path, vis_path, pkg_data, loca
   all_years <- pkg_data$all_years
 
   # Creating index tables for reference
-  subnat_index_table <- mydata %>% select(Country, Region, index_subnat) %>% ungroup() %>% distinct()
-  country_index_table <- tibble(Country = n_country, index_country = unique(mydata$index_country))
-  method_index_table <- tibble(Method = n_method, index_method = 1:length(n_method))
-  sector_index_table <- tibble(Sector = n_sector, index_sector = 1:length(n_sector))
-  year_index_table <- tibble(average_year = all_years,
+  subnat_index_table <- mydata %>%
+    dplyr::select(Country, Region, index_subnat) %>%
+    dplyr::ungroup() %>%
+    dplyr::distinct()
+  country_index_table <- tibble::tibble(Country = n_country, index_country = unique(mydata$index_country))
+  method_index_table <- tibble::tibble(Method = n_method, index_method = 1:length(n_method))
+  sector_index_table <- tibble::tibble(Sector = n_sector, index_sector = 1:length(n_sector))
+  year_index_table <- tibble::tibble(average_year = all_years,
                              index_year = 1:n_all_years,
                              floored_year = floor(all_years))
 

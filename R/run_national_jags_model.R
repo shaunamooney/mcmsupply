@@ -11,12 +11,18 @@
 #' @return returns the jags model object
 #' importFrom("stats", "cor", "filter", "lag")
 #' @import R2jags runjags tidyverse tidybayes
+#' @example
+#' Multi-country:
+#' cleaned_data <- get_data(national=TRUE, local=FALSE, mycountry=NULL, fp2030=TRUE)
+#' pkg_data <- get_modelinputs(startyear=1990, endyear=2025.5, nsegments=12, raw_data = cleaned_data)
+#' run_national_jags_model(jagsdata = pkg_data, jagsparams = NULL, local=FALSE, main_path = "results/", n_iter = 80000, n_burnin = 10000, n_thin = 35, mycountry=NULL)
+
 #' @export
 
 run_national_jags_model <- function(jagsdata, jagsparams = NULL, local=FALSE, main_path,
                                     n_iter = 80000, n_burnin = 10000, n_thin = 35, mycountry=NULL) {
 
-  print(paste0("Saving results to the following pathway: ", main_path))
+  message(paste0("Saving results to the following pathway: ", main_path))
 
   # Get default data input list for JAGS
   myjagsdata <- get_national_JAGSinput_list(jagsdata, local= local,  mycountry=mycountry)

@@ -1,11 +1,11 @@
 #' Standardise the contraceptive method names
-#'
 #' @param my_data The input data with a Method column to standardise
-#'
 #' @return Original input dataframe with Method column standardised.
+#' @example
+#' national_FPsource_data <- mcmsupply::national_FPsource_data
+#' data_standard <- standard_method_names(national_FPsource_data)
 #' @export
-#'
-#' @examples data_standard <- standard_method_names(mydata)
+
 standard_method_names <- function(my_data) {
   my_data <- my_data %>%
     dplyr::mutate(Method = replace(Method, Method == "Condom (m+f)", "Condom")) %>%

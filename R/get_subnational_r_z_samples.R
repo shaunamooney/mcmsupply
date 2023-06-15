@@ -7,6 +7,10 @@
 #' @param mycountry The country name of interest in a local run. You must have local=TRUE for this functionality. A list of possible countries available found in data/mycountries.rda.
 #' @return returns the point estimates for the jags model object
 #' @import R2jags runjags tidyverse tidybayes foreach doMC sf spdep geodata
+#' @example
+#' cleaned_subnatdata <- get_data(national=FALSE, local=FALSE, mycountry=NULL, fp2030=TRUE)
+#' pkg_data <- get_modelinputs(startyear=1990, endyear=2025.5, nsegments=12, raw_data = cleaned_subnatdata)
+#' get_subnational_r_z_samples(main_path = "results/", n_subnat = pkg_data$modelinputs$n_subnat, n_method = pkg_data$modelinputs$n_method, n_sector = pkg_data$modelinputs$n_sector, n_all_years = pkg_data$modelinputs$n_all_years, K = pkg_data$modelinputs$K, B.ik = pkg_data$modelinputs$B.ik, local=FALSE)
 #' @export
 
 get_subnational_r_z_samples <- function(main_path,  n_subnat, n_method, n_sector, n_all_years, K, B.ik, local=FALSE) {

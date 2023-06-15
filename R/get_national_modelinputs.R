@@ -6,7 +6,6 @@
 #' @param endyear The year you wish to finish your predictions. Default is 2030.5.
 #' @param nsegments The number of knots you wish to use in your basis functions. Default is 12.
 #' @param raw_data The national family planning source data from the 'get_subnational_data' function.
-#'
 #' @return A list of modelling inputs for the JAGS model.
 #' 1. Tstar is the year index for the most recent survey in each province.
 #' 2. Kstar is the knot index that aligns with Tstar.
@@ -19,9 +18,15 @@
 #' 9. matchcountry is the country indexing to match the observed data to the predictions.
 #' 10. matchmethod is the method indexing to match the observed data to the predictions.
 #' 11. matchyears is the year indexing to match the observed data to the predictions.
+#' @examples
+#' Single country:
+#' cleaned_natdata <- get_data(national=FALSE, local=TRUE, mycountry="Nepal", fp2030=TRUE, surveydata_filepath=NULL)
+#' jagsdata <- get_modelinputs(local=TRUE, mycountry="Nepal", startyear=1990, endyear=2030.5, nsegments=12, cleaned_natdata)
+#' Multi-country:
+#' cleaned_natdata <- get_data(national=TRUE, local=FALSE, mycountry=NULL, fp2030=TRUE)
+#' jagsdata <- get_modelinputs(local=FALSE, mycountry=NULL, startyear=1990, endyear=2030.5, nsegments=12, cleaned_natdata)
 #' @export
-#'
-#' @examples jagsdata <- get_modelinputs("Nepal", startyear=1990, endyear=2030.5, nsegments=12, mydata)
+
 get_national_modelinputs <- function(local=FALSE, mycountry=NULL, startyear=1990, endyear=2030.5, nsegments=12, raw_data) {
 
   clean_FPsource <- standard_method_names(raw_data) # Standardizing method names

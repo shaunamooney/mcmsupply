@@ -7,6 +7,15 @@
 #' @param mycountry The country name of interest in a local run. You must have local=TRUE for this functionality. A list of possible countries available found in data/mycountries.rda.
 #' @return returns the point estimates for the jags model object
 #' @import R2jags runjags tidyverse tidybayes foreach doMC sf spdep geodata
+#' @example
+#' Multi-country:
+#' cleaned_natdata <- get_data(national=TRUE, local=FALSE, mycountry=NULL, fp2030=TRUE)
+#' pkg_data <- get_modelinputs(startyear=1990, endyear=2025.5, nsegments=12, raw_data = cleaned_natdata)
+#' get_national_P_point_estimates(main_path="results/, pkg_data = pkg_data, local=FALSE, mycountry=NULL)
+#' Single-country:
+#' cleaned_natdata <- get_data(national=TRUE, local=TRUE, mycountry="Nepal", fp2030=TRUE)
+#' pkg_data <- get_modelinputs(startyear=1990, endyear=2025.5, nsegments=12, raw_data = cleaned_natdata)
+#' get_national_P_point_estimates(main_path="results/, pkg_data = pkg_data, local=TRUE, mycountry="Nepal")
 #' @export
 
 get_national_P_point_estimates <- function(main_path, pkg_data, local=FALSE, mycountry=NULL) {

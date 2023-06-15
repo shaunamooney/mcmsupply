@@ -2,9 +2,12 @@
 #' @param fp2030 TRUE/FALSE. Default is TRUE. Filters the data to only include FP2030 countries.
 #' @param raw_subnatdata The subnational family planning source data from the 'get_subnational_data' function.
 #' @return A dataset with the subnational regions names cleaned for Rwanda, Nigeria and Cote d'Ivoire. Optional to filter for only FP2030 countries.
+#' @examples
+#' Include only FP2030 countries:
+#' subnat_data <- clean_subnat_names(fp2030=TRUE, raw_subnatdata)
+#' Include all countries:
+#' subnat_data <- clean_subnat_names(fp2030=FALSE, raw_subnatdata).
 #' @export
-#' @examples Include only FP2030 countries: subnat_data <- clean_subnat_names(fp2030=TRUE, raw_subnatdata)
-#' Include all countries: subnat_data <- clean_subnat_names(fp2030=FALSE, raw_subnatdata). Note this functionality is untested.
 
 clean_subnat_names <- function(fp2030=TRUE, raw_subnatdata) {
   if(fp2030==TRUE) {

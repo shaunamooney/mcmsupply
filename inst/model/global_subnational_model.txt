@@ -36,8 +36,8 @@ model{
 for(p in 1:P_count) { # province loop matched to C
   for(m in 1:M_count){ # method loop
     for (t in 1:n_years) {
-      z[m,p,t] <- alpha_pms[1,m,p] + inprod(B.ik[p,t,],beta.k[1,m,p,]) + phi[1,p]
-      r[m,p,t] <- alpha_pms[2,m,p] + inprod(B.ik[p,t,],beta.k[2,m,p,]) + phi[2,p]
+      z[m,p,t] <- alpha_pms[1,m,p] + inprod(B.ik[p,t,],beta.k[1,m,p,])
+      r[m,p,t] <- alpha_pms[2,m,p] + inprod(B.ik[p,t,],beta.k[2,m,p,])
     } # end time loop
   } # end M loop
 } # end P loop
@@ -45,10 +45,9 @@ for(p in 1:P_count) { # province loop matched to C
 
 ## Parameter Estimates
   for(s in 1:2){ # sector loop
-    phi[s,c(1:P_count)] ~ dmnorm(P_zeroes, sigma[s]*(D-gamma[s]*W)) # spatial CAR term for continental patterns in residuals
     for(p in 1:P_count) { # province loop
       for(m in 1:M_count){ # method loop
-        alpha_pms[s,m,p] ~ dnorm(alpha_cms[s,m,matchcountry[p]],tau_alpha[s])
+        alpha_pms[s,m,p] ~ dnorm(alpha_cms[s,m,matchcountry[p]],tau_alpha_pms[s])
         beta.k[s,m,p,kstar[p]] <- 0
         for(j in 1:(kstar[p]-1)){ # before kstar[p]
           beta.k[s,m,p,(kstar[p] - j)] <- beta.k[s,m,p,(kstar[p] - j)+1] - delta.k[s,m,p,(kstar[p] - j)]
@@ -91,7 +90,7 @@ for(p in 1:P_count) { # province loop matched to C
   for(s in 1:2) { # cross method variance (within a country)
     for(m in 1:M_count){ # method loop
       for(c in 1:C_count) { # country loop
-        alpha_cms[s,m,c] ~ dnorm(beta_r[s,m,matchregion[c]],tau_alpha[s])
+        alpha_cms[s,m,c] ~ dnorm(beta_r[s,m,matchregion[c]],tau_alpha_cms[s])
       }
       for(r in 1:R_count){ # regional
         beta_r[s,m,r] ~ dnorm(beta_world[s,m],tau_beta[s])
@@ -99,11 +98,13 @@ for(p in 1:P_count) { # province loop matched to C
        # world intercept
        beta_world[s,m] ~ dnorm(0,0.1)
     }
-    sigma[s] ~ dt(0,1,1)T(0,) # spatial variance parameter
-    gamma[s] ~ dunif(0, 1) # spatial dependence parameter
-    tau_alpha[s] <- sigma_alpha[s]^-2
-    sigma_alpha[s] ~ dt(0,1,1)T(0,)
-    tau_beta[s] <- sigma_beta[s]^-2
+    tau_alpha_pms[s] <- sigma_alpha_pms[s]^-2 # precision for subnational intercepts
+    sigma_alpha_pms[s] ~ dt(0,1,1)T(0,)
+
+    tau_alpha_cms[s] <- sigma_alpha_cms[s]^-2 # precision for national intercepts
+    sigma_alpha_cms[s] ~ dt(0,1,1)T(0,)
+
+    tau_beta[s] <- sigma_beta[s]^-2 # precision for subcontinental intercepts
     sigma_beta[s] ~ dt(0,1,1)T(0,)
   }
 }

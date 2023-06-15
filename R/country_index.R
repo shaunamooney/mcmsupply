@@ -3,6 +3,10 @@
 #' @param my_data The data with a Country column you want to index.
 #' @param  my_countries A vector of country names used in the data
 #' @return returns table with countries indexed
+#' @example
+#' national_FPsource_data <- mcmsupply::national_FPsource_data
+#' n_country <- unique(national_FPsource_data$Country)
+#' country_index_fun(national_FPsource_data, n_country)
 #' @export
 
 country_index_fun <- function(my_data, my_countries) {

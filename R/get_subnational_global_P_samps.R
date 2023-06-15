@@ -2,6 +2,7 @@
 #' @name get_subnational_global_P_samps
 #' @param main_path String. Path where you have set your model results to be saved to.
 #' @return Saved samples for public, commercial medical and other supply shares.
+#' @example get_subnational_global_P_samps(main_path="results/")
 #' @export
 
 get_subnational_global_P_samps <- function(main_path) {

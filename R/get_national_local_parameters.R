@@ -3,6 +3,7 @@
 #' @param mycountry The name of country of interest. Default is NULL. For the names of potential countries, review vigentte.
 #' @param fp2030 Default to be TRUE. The country of interest is named as one of the Family Planning 2030 focus countries discussed in the Comiskey et al. paper.
 #' @return A list of local parameters to be used to inform the intercept parameter alpha and the global variance-covariance matrix used in the wishart prior of the local_model_run.txt file.
+#' @example get_national_local_parameters (mycountry="Nepal", fp2030=TRUE)
 #' @export
 
 get_national_local_parameters <- function(mycountry=NULL, fp2030=TRUE) {
@@ -15,9 +16,9 @@ get_national_local_parameters <- function(mycountry=NULL, fp2030=TRUE) {
 
   # Match regional intercepts to country names  ------------------------
   region_country_match <- mydata %>%
-    select(Country, Super_region) %>%
-    distinct() %>%
-    filter(Country==mycountry) # List of matching countries to super-regions
+    dplyr::select(Country, Super_region) %>%
+    dplyr::distinct() %>%
+    dplyr::filter(Country==mycountry) # List of matching countries to super-regions
 
   mydata <- superregion_index_fun(mydata, unique(mydata$Super_region))
   region_index_table <- tibble(Super_region = unique(mydata$Super_region), index_superregion = unique(mydata$index_superregion))

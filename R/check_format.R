@@ -10,6 +10,10 @@ drop_na <- function(x) {
 #' @param data The data to be checked.
 #' @return An informative error message if data does not pass validation
 #' @source With thanks, taken from https://github.com/AlkemaLab/fpemlocal/blob/master/R/format_check.R
+#' @example
+#' subnat_FPsource_data <- readxl::read_xlsx(surveydata_file.xlsx)
+#' subnat_FPsource_format <- mcmsupply::subnat_FPsource_format
+#' check_format(subnat_FPsource_format, subnat_FPsource_data)
 
 check_format <- function(format_list, data) {
   error_vector <- c()

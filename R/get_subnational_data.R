@@ -70,8 +70,10 @@ get_subnational_data <- function(local=FALSE, mycountry=NULL, fp2030=TRUE, surve
     dplyr::rename(Public.SE = Public, Commercial_medical.SE = Commercial_medical, Other.SE = Other)
 
   SE_source_data_wide$count_NA <- rowSums(is.na(SE_source_data_wide)) # count NAs
-  SE_source_data_wide_n1 <- SE_source_data_wide %>% dplyr::filter(count_NA < 2) # Remove obs with two missing sectors
-  SE_source_data_wide_n2 <- SE_source_data_wide %>% dplyr::filter(count_NA >1) # Remove obs with two missing sectors
+  SE_source_data_wide_n1 <- SE_source_data_wide %>%
+    dplyr::filter(count_NA < 2) # Remove obs with two missing sectors
+  SE_source_data_wide_n2 <- SE_source_data_wide %>%
+    dplyr::filter(count_NA >1) # Remove obs with two missing sectors
 
   SE_source_data_wide_n1 <- SE_source_data_wide_n1 %>%
     dplyr::group_by(Country, Region, Method, average_year) %>%
@@ -84,7 +86,7 @@ get_subnational_data <- function(local=FALSE, mycountry=NULL, fp2030=TRUE, surve
    SE_source_data_wide_n2 <- SE_source_data_wide_n2 %>%
      dplyr::group_by(Country, Region, Method, average_year) %>%
      dplyr::rowwise() %>%
-     dplyr::mutate(Other.SE = ifelse(is.na(Other.SE)==TRUE | is.infinite(Other.SE)==TRUE, 0.1, Other.SE)) %>% #   # Replace missing SE with average of other sectors
+     dplyr::mutate(Other.SE = ifelse(is.na(Other.SE)==TRUE | is.infinite(Other.SE)==TRUE, 0.1, Other.SE)) %>%    # Replace missing SE with 10%
      dplyr::mutate(Public.SE = ifelse(is.na(Public.SE)==TRUE | is.infinite(Public.SE)==TRUE, 0.1, Public.SE)) %>%
      dplyr::mutate(Commercial_medical.SE = ifelse(is.na(Commercial_medical.SE)==TRUE | is.infinite(Commercial_medical.SE)==TRUE, 0.1, Commercial_medical.SE)) %>%
      dplyr::select(Country, Region, Method, average_year, Commercial_medical.SE, Public.SE, Other.SE, count_NA)
@@ -100,7 +102,7 @@ get_subnational_data <- function(local=FALSE, mycountry=NULL, fp2030=TRUE, surve
     dplyr::mutate(Other = ifelse(Other < 0, 0.001, Other))
 
   if(local==TRUE & is.null(mycountry)==FALSE &is.null(surveydata_filepath)==TRUE) {
-    print(paste0("Getting data for ",mycountry))
+    message(paste0("Getting data for ",mycountry))
     mydata <- mydata %>% dplyr::filter(Country==mycountry)
 
     if(mycountry == "Rwanda") { # Addressing issues with Rwanda subnational region names
