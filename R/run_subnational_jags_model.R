@@ -55,7 +55,7 @@ run_subnational_jags_model <- function(jagsdata, jagsparams = NULL, local=FALSE,
 
   # run JAGS model
   n_chains = 2
-  foreach(chain=1:n_chains) %dopar% {   ## Do chains separately ------------------------------
+  foreach::foreach(chain=1:n_chains) %dopar% {   ## Do chains separately ------------------------------
     set.seed(chain*1239)
     mod <- R2jags::jags(data = myjagsdata,
                         parameters.to.save = jagsparams,

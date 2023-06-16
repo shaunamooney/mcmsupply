@@ -3,3 +3,4 @@
 ^\.Rproj\.user$
 ^README\.md$
 ^tests/testthat$
+^LICENSE\.md$

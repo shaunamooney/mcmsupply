@@ -15,10 +15,6 @@ LazyData: true
 Depends: R2jags,
     doMC, 
     foreach,
-    geodata,
-    sf,
-    spdep,
-    runjags,
     tidyverse,
     tidybayes,
     R (>= 3.5.0)

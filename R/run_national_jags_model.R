@@ -46,7 +46,7 @@ run_national_jags_model <- function(jagsdata, jagsparams = NULL, local=FALSE, ma
   write_jags_model(model_type = "national", local=local)
 
   if(local==TRUE & is.null(mycountry)==FALSE) {
-    mod <- jags.parallel(data=myjagsdata,
+    mod <- R2jags::jags.parallel(data=myjagsdata,
                          parameters.to.save=jagsparams,
                          model.file = "model.txt",
                          n.burnin = n_burnin,
@@ -54,7 +54,7 @@ run_national_jags_model <- function(jagsdata, jagsparams = NULL, local=FALSE, ma
                          n.thin = n_thin)
     saveRDS(mod, paste0(main_path, "mod_",mycountry,"_national_results.RDS"))
   } else {
-    mod <- jags.parallel(data=myjagsdata,
+    mod <- R2jags::jags.parallel(data=myjagsdata,
                          parameters.to.save=jagsparams,
                          model.file = "model.txt",
                          n.burnin = n_burnin,
