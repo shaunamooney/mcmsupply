@@ -1,5 +1,6 @@
-.Rproj.user
-.Rhistory
+.DS_Store
 .RData
+.Rhistory
+.Rproj.user
 .Ruserdata
 docs
